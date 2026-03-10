@@ -30,3 +30,15 @@ export const getTempleById = async (req, res) => {
         res.status(500).json({ message: error.message || "Failed to fetch temple" });
     }
 };
+
+// search temples
+export const searchTemples = async (req, res) => {
+    try {
+        const temples = await Temple.find({
+            name: { $regex: req.query.name, $options: "i" }
+        });
+        res.json(temples);
+    } catch (error) {
+        res.status(500).json({ message: error.message || "Failed to fetch temples" });
+    }
+};
