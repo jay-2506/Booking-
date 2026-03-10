@@ -4,7 +4,10 @@ const templeSchema = new mongoose.Schema({
     name: { type: String, required: true },
     location: String,
     description: String,
-    image: String,
+    image: {
+        type: String,
+        required: true
+    }
 });
 
 const Temple = mongoose.model("Temple", templeSchema);
