@@ -1,26 +1,12 @@
 import Booking from "../model/Booking.js";
-import Slot from "../model/Slot.js";
 
-export const bookSlot = async (req, res) => {
+export const createBooking = async (req, res) => {
     try {
-        const { slotId } = req.body;
-
-        const slot = await Slot.findById(slotId);
-        if (!slot) return res.status(404).json({ message: "Slot not found" });
-
-        if (slot.bookedCount >= slot.maxVisitors) {
-            return res.status(400).json({ message: "Slot full" });
-        }
-
-        const booking = new Booking({ user: req.user.id, slot: slotId });
+        const booking = new Booking(req.body);
         await booking.save();
-
-        slot.bookedCount += 1;
-        await slot.save();
-
-        res.json({ message: "Slot booked successfully", booking });
+        res.json({ message: "Booking created", booking });
     } catch (error) {
-        res.status(500).json({ message: error.message || "Booking failed" });
+        res.status(500).json({ message: error.message || "Something went wrong" });
     }
 };
 

@@ -1,9 +1,9 @@
 import express from "express";
 const router = express.Router();
-import { bookSlot, getUserBookings } from "../controller/bookingController.js";
+import { createBooking, getUserBookings } from "../controller/bookingController.js";
 import auth from "../middleware/authMiddleware.js";
 
-router.post("/book", auth, bookSlot);
+router.post("/create", auth, createBooking);
 router.get("/my", auth, getUserBookings);
 
-export default router;
+export default router;  
