@@ -5,7 +5,7 @@ import auth from "../middleware/authMiddleware.js";
 
 router.post("/", auth, createTemple); // Admin creates temple
 router.get("/", getTemples);
-router.get("/:id", getTempleById);
 router.get("/search", searchTemples);
+router.get("/:id", getTempleById);
 
 export default router;

@@ -34,8 +34,12 @@ export const getTempleById = async (req, res) => {
 // search temples
 export const searchTemples = async (req, res) => {
     try {
+        const query = req.query.name || req.query.query || '';
         const temples = await Temple.find({
-            name: { $regex: req.query.name, $options: "i" }
+            $or: [
+                { name: { $regex: query, $options: "i" } },
+                { location: { $regex: query, $options: "i" } }
+            ]
         });
         res.json(temples);
     } catch (error) {
