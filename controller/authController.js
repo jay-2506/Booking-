@@ -1,6 +1,7 @@
 import User from "../model/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateToken } from "../middleware/authMiddleware.js";
 
 export const register = async (req, res) => {
   try {
@@ -8,9 +9,10 @@ export const register = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
 
     const user = new User({ name, email, password: hashed, phone });
+    const token = generateToken(user);
     await user.save();
 
-    res.json({ message: "User registered successfully" });
+    res.json({ message: "User registered successfully", token });
   } catch (error) {
     res.status(500).json({ message: error.message || "Registration failed" });
   }
@@ -36,8 +38,8 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        phone: user.phone
-      }
+        phone: user.phone,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message || "Login failed" });
